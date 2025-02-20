@@ -7,6 +7,7 @@ import { TodoList } from './pages/TodoList';
 import { Home } from './pages/Home';
 import { Login} from './pages/login';
 import { Register} from './pages/register';
+import { Profile} from './pages/profile';
 
 function App() {
   return (
@@ -20,7 +21,11 @@ function App() {
           <Route path="/spotify-ai" element={<SpotifyAI />} />
           <Route path="/whiteboard" element={<Whiteboard />} />
           <Route path="/todo" element={<TodoList />} />
+<<<<<<< Updated upstream
           <Route path="*" element={<div>404 Not Found</div>} />
+=======
+          <Route path="/profile" element={<Profile />} />
+>>>>>>> Stashed changes
         </Routes>
       </Layout>
     </Router>
