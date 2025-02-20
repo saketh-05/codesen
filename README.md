@@ -38,11 +38,17 @@ npm run dev
 Open in browser:
 
 Visit http://localhost:3000 to explore the project.
+
 Team Codesen
 
 Contributors
+
 RSVS Viswath
+
 D saketh surya
+
 Earle Harshith Naidu
+
 Ch p v s s s Naveen
+
 D s r g n v sasank reddy
