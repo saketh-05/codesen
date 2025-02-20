@@ -6,6 +6,7 @@ import { Whiteboard } from './pages/Whiteboard';
 import { TodoList } from './pages/TodoList';
 import { Home } from './pages/Home';
 import { Login} from './pages/login';
+import { Register} from './pages/register';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/ai-interviewer" element={<AIInterviewer />} />
           <Route path="/spotify-ai" element={<SpotifyAI />} />
           <Route path="/whiteboard" element={<Whiteboard />} />
