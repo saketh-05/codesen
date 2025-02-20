@@ -2,26 +2,43 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Lock, Mail, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function Register() {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
     if (password !== confirmPassword) {
       setError('Passwords do not match!');
+      alert('Passwords do not match!');
       return;
-    }
+    };
 
-    // Handle registration logic here
-    console.log({ name, email, password });
-  };
+      const response = await fetch('http://127.0.0.1:8000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name, email, password }),
+      });
+      const data = (await response).json();
+      console.log(await data);
+      if ((await data).status === 'success') {
+        console.log('Registration Success');
+        navigate('/');
+      } else {
+        console.log('Login Failed');
+        alert('Login Failed');
+      }
+    };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
