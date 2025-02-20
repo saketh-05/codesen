@@ -11,7 +11,7 @@ export function Login() {
         className="bg-white rounded-lg shadow-md p-8 w-full max-w-md"
       >
         <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
-        <form    className="space-y-4">
+        <form className="space-y-4">
           <div className="relative">
             <Mail className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
             <input

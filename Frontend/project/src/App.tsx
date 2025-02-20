@@ -21,7 +21,6 @@ function App() {
           <Route path="/whiteboard" element={<Whiteboard />} />
           <Route path="/todo" element={<TodoList />} />
           <Route path="*" element={<div>404 Not Found</div>} />
-          {/* <Route path='/register' element={<Register />} /> */}
         </Routes>
       </Layout>
     </Router>

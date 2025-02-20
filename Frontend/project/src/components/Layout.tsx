@@ -35,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               ))}
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-red-600 text-sm font-medium">Admin</span>
+              <a href='/login' className="text-red-600 text-sm font-medium">Login</a>
               <div className="w-8 h-8 rounded-full bg-gray-200" />
             </div>
           </div>
