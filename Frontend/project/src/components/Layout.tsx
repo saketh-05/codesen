@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Brain, Music, PencilRuler, ListTodo, Home as HomeIcon } from 'lucide-react';
 import { cn } from '../utils/cn';
 
@@ -12,6 +12,8 @@ const navItems = [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+const location = useLocation();
+  const isLogin = location.pathname === '/' ? true : false;
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
@@ -35,7 +37,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
               ))}
             </div>
             <div className="flex items-center space-x-4">
-              <a href='/login' className="text-red-600 text-sm font-medium">Login</a>
+              {!isLogin && <a href='/login' className="text-red-600 text-sm font-medium">Login</a>}
+              {isLogin && <a href='/login' className="text-red-600 text-sm font-medium">Logout</a>}
               <div className="w-8 h-8 rounded-full bg-gray-200" />
             </div>
           </div>

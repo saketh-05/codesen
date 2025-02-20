@@ -7,14 +7,20 @@ import { TodoList } from './pages/TodoList';
 import { Home } from './pages/Home';
 import { Login} from './pages/login';
 import { Register} from './pages/register';
+import {useState} from 'react';
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  const toggleLogin = () => {
+    console.log('toggle login');
+    setIsLogin(!isLogin);
+  };
   return (
     <Router>
-      <Layout>
+      <Layout >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login toggleLogin={toggleLogin}/>} />
           <Route path="/register" element={<Register />} />
           <Route path="/ai-interviewer" element={<AIInterviewAgent />} />
           <Route path="/spotify-ai" element={<SpotifyAI />} />
