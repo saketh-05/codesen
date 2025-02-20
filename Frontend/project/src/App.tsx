@@ -5,6 +5,7 @@ import { SpotifyAI } from './pages/SpotifyAI';
 import { Whiteboard } from './pages/Whiteboard';
 import { TodoList } from './pages/TodoList';
 import { Home } from './pages/Home';
+import { Login} from './pages/login';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/ai-interviewer" element={<AIInterviewer />} />
           <Route path="/spotify-ai" element={<SpotifyAI />} />
           <Route path="/whiteboard" element={<Whiteboard />} />
