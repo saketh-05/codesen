@@ -8,6 +8,7 @@ import { Home } from './pages/Home';
 import { Login} from './pages/login';
 import { Register} from './pages/register';
 import {useState} from 'react';
+import { Profile} from './pages/profile';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -27,6 +28,7 @@ function App() {
           <Route path="/whiteboard" element={<Whiteboard />} />
           <Route path="/todo" element={<TodoList />} />
           <Route path="*" element={<div>404 Not Found</div>} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Layout>
     </Router>
