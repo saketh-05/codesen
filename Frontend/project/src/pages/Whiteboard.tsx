@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
-import { PencilRuler, Plus, Eraser, RotateCcw } from 'lucide-react';
+import { PencilRuler, Plus, Eraser, RotateCcw, Download, Trash2 } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface WhiteboardProps {
   width: number;
@@ -76,6 +78,16 @@ function DrawingBoard({ width, height }: WhiteboardProps) {
     setLineWidth(2);
   };
 
+  const exportAsPDF = async () => {
+    if (!canvasRef.current) return;
+
+    const canvas = await html2canvas(canvasRef.current);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, 'PNG', 10, 10, 180, 120);
+    pdf.save('whiteboard.pdf');
+  };
+
   return (
     <div className="relative">
       <div className="absolute top-4 left-4 flex items-center space-x-2 bg-white rounded-lg shadow-sm p-2">
@@ -102,6 +114,14 @@ function DrawingBoard({ width, height }: WhiteboardProps) {
           className="p-2 rounded hover:bg-gray-100"
         >
           <RotateCcw className="w-5 h-5" />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={exportAsPDF}
+          className="p-2 rounded hover:bg-gray-100"
+        >
+          <Download className="w-5 h-5" />
         </motion.button>
       </div>
       <canvas
@@ -131,39 +151,38 @@ export function Whiteboard() {
     setBoards([...boards, newBoard]);
   };
 
+  const deleteBoard = (id: number) => {
+    setBoards(boards.filter(board => board.id !== id));
+  };
+
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center space-x-3"
-        >
-          <PencilRuler className="w-6 h-6" />
-          <h1 className="text-2xl font-semibold">Whiteboard</h1>
-        </motion.div>
-
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={addNewBoard}
-          className="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-medium text-sm"
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          New Whiteboard
-        </motion.button>
-      </div>
-
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={addNewBoard}
+        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+      >
+        <Plus className="w-5 h-5 inline mr-2" /> New Whiteboard
+      </motion.button>
       <div className="grid grid-cols-1 gap-8">
         {boards.map((board) => (
           <motion.div
             key={board.id}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gray-50 rounded-lg p-6 space-y-4"
+            className="bg-gray-50 rounded-lg p-6 space-y-4 relative"
           >
             <h3 className="font-medium text-lg">{board.title}</h3>
             <DrawingBoard width={800} height={600} />
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => deleteBoard(board.id)}
+              className="absolute top-4 right-4 p-2 bg-red-500 text-white rounded-md"
+            >
+              <Trash2 className="w-5 h-5" />
+            </motion.button>
           </motion.div>
         ))}
       </div>
