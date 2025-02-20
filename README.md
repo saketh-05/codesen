@@ -23,7 +23,21 @@ To run the project locally, follow these steps:
    git clone <repository_url>
    cd <project_directory>
 
+Install dependencies:
 
+```sh
+
+npm install
+```
+Run the development server:
+
+```sh
+
+npm run dev
+```
+Open in browser:
+
+Visit http://localhost:3000 to explore the project.
 Team Codesen
 
 Contributors
