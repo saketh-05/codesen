@@ -35,9 +35,9 @@ Run the development server:
 
 npm run dev
 ```
-Open in browser:
+The Project Can be viewed at
 
-Visit http://localhost:3000 to explore the project.
+http://localhost:3000 to explore the project. after completing above steps
 
 Team Codesen
 
