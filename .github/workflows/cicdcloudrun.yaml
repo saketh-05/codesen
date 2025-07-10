@@ -1,0 +1,76 @@
+name: CI/CD for Cloud Run
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on changes to the main branch
+
+jobs:
+  deploy:
+    name: Deploy to Google Cloud Run
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+      
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+      
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      # ✅ Set Google Cloud project and region
+      - name: Set GCloud config
+        run: |
+          gcloud config set project codesen
+          gcloud config set run/region asia-southeast1
+
+      # ✅ Create Artifact Registry repository if it doesn't exist
+      - name: Create Artifact Registry repository if it doesn't exist
+        run: |
+          REPO_NAME=codesen-repo
+          REGION=asia-southeast1
+          # Check if the repository exists
+          REPO_EXISTS=$(gcloud artifacts repositories list --filter="name~'$REPO_NAME'" --format="value(name)")
+          if [ -z "$REPO_EXISTS" ]; then
+            echo "Repository does not exist, creating it now..."
+            gcloud artifacts repositories create $REPO_NAME --repository-format=docker --location=$REGION
+          else
+            echo "Repository already exists."
+          fi
+
+
+      # ✅ Configure Docker for Artifact Registry authentication
+      - name: Authenticate Docker to Artifact Registry
+        run: |
+          gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+
+      # ✅ Build the Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t asia-southeast1-docker.pkg.dev/codesen/codesen-repo/codesen-frontend:$GITHUB_SHA .
+          docker build -t asia-southeast1-docker.pkg.dev/codesen/codesen-repo/codesen-backend:$GITHUB_SHA .
+
+      # ✅ Push Docker image to Artifact Registry
+      - name: Push Docker image to Artifact Registry
+        run: |
+          docker push asia-southeast1-docker.pkg.dev/codesen/codesen-repo/codesen-frontend:$GITHUB_SHA
+          docker push asia-southeast1-docker.pkg.dev/codesen/codesen-repo/codesen-backend:$GITHUB_SHA
+
+      # ✅ Deploy to Google Cloud Run
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy koinx-assignment \
+            --image ${{secrets.REGION}}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.REPO_NAME }}/${{secrets.IMAGE_NAME}}:$GITHUB_SHA \
+            --platform managed \
+            --region ${{secrets.REGION}} \
+            --set-env-vars MONGO_DB_ATLAS_URI=${{secrets.MONGO_DB_ATLAS_URI}} \
+            --set-env-vars COIN_GECKO_API=${{secrets.COIN_GECKO_API}} \
+            --allow-unauthenticated 
