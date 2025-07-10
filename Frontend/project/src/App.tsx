@@ -20,15 +20,15 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login toggleLogin={toggleLogin} />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/ai-interviewer' element={<AIInterviewAgent />} />
-          <Route path='/spotify-ai' element={<SpotifyAI />} />
-          <Route path='/whiteboard' element={<Whiteboard />} />
-          <Route path='/todo' element={<TodoList />} />
-          <Route path='*' element={<div>404 Not Found</div>} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login toggleLogin={toggleLogin}/>} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/ai-interviewer" element={<AIInterviewAgent />} />
+          <Route path="/spotify-ai" element={<SpotifyAI />} />
+          <Route path="/whiteboard" element={<Whiteboard />} />
+          <Route path="/todo" element={<TodoList />} />
+          <Route path="*" element={<div>404 Not Found</div>} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Layout>
     </Router>
